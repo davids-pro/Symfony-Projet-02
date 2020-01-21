@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{% endblock %}
-
+{% block title %}The Good News
+{% endblock %}
 {% block body %}
-	<div class="row pt-5">
+	<div class="row">
 		{% for categorie in categories %}
 			<div class="card bg-dark text-light col-4">
 				<div class="card-body">
 					<h3>
-						<b class="text-danger">{{categorie.title}}</b>
+						<span class="text-danger">{{categorie.title}}</span>
 					</h3>
 				</div>
 			</div>
