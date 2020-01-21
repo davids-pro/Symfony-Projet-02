@@ -3,7 +3,7 @@
 {% endblock %}
 {% block body %}
 	<div class="row">
-		<div class="bg-dark col-12 p-4">
+		<div class="card bg-dark col-12 p-4">
 			{{ form_start(form) }}
 			<div>
 				<div class="text-warning mb-1">
@@ -17,7 +17,7 @@
 				</div>
 				{{ form_widget(form.content, {attr: {placeholder: "Entrez le contenu de l'article", rows: '5'}}) }}
 			</div>
-			<input type="submit" class="btn btn-success mt-5" value="Soumettre">
+			<input type="submit" class="btn btn-danger mt-5" value="Soumettre">
 			{{ form_end(form) }}
 		</div>
 	</div>
