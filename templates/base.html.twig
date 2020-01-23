@@ -17,9 +17,12 @@
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<a class="nav-item nav-link {{path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) == '/' ? 'active'}}" href="/">Home</a>
-					<a class="nav-item nav-link {{path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) == '/categories' ? 'active'}}" href="/categories">Catégories</a>
 					<a class="nav-item nav-link {{path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) == '/articles' ? 'active'}}" href="/articles">Articles</a>
 					<a class="nav-item nav-link {{path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) == '/ajout' ? 'active'}}" href="/ajout">Ajouter un article</a>
+					<div class="d-flex align-items-center pl-2">
+						<span class="text-light pr-3">|</span>
+						<span class="text-muted {{'edit' in path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) ? 'active'}}">Edition</span>
+					</div>
 				</div>
 			</div>
 		</nav>

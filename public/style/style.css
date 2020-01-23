@@ -23,7 +23,6 @@ body {
 body {
   margin: 0;
   font-family: 'Khand', sans-serif;
-  font-size: 0.9rem;
   background-image: url('../images/bg.jpg');
   background-size: cover;
   background-attachment: fixed;

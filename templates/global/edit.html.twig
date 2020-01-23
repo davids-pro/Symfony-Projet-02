@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}The Good News
+{% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="card bg-dark col-12 p-4">
+			{{ form_start(form) }}
+			<div>
+				<div class="text-warning mb-1">
+					Titre de l'article
+				</div>
+				{{ form_widget(form.title, {attr: {placeholder: "Entrez le titre de l'article", value: article.title}}) }}
+			</div>
+			<div class="pt-3">
+				<div class="text-warning pt-3 mb-1">
+					Contenu de l'article
+				</div>
+				{{ form_widget(form.content, {attr: {placeholder: "Entrez le contenu de l'article", rows: '5'}}) }}
+			</div>
+			<input type="submit" class="btn btn-warning mt-5" value="Mettre à jour">
+			{{ form_end(form) }}
+      <a href="/delete/{{article.id}}" class="mt-2"><button class="btn btn-danger">Supprimer l'article</button></a>
+		</div>
+	</div>
+{% endblock %}

@@ -36,6 +36,12 @@ class Post
      */
     private $enable;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Images", cascade={"persist", "remove"})
+     */
+    private $image;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +91,18 @@ class Post
     public function setEnable(bool $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    public function getImage(): ?Images
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Images $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

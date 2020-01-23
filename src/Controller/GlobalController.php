@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Post;
-use App\Repository\PostCategoryRepository;
 use App\Repository\PostRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,18 +21,6 @@ class GlobalController extends AbstractController
     {
         return $this->render('global/index.html.twig', [
             'controller_name' => 'GlobalController',
-        ]);
-    }
-    /**
-     * @Route("/categories", name="categories")
-     */
-    public function categorie(PostCategoryRepository $postCategoryRepository)
-    {
-        $categories = $postCategoryRepository->findAll();
-
-        return $this->render('global/categories.html.twig', [
-            'controller_name' => 'GlobalController',
-            'categories' => $categories
         ]);
     }
     /**
@@ -69,5 +56,47 @@ class GlobalController extends AbstractController
         return $this->render('global/ajout.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+    /**
+     * @Route("/edit/{id}", name="edition")
+     */
+    public function update($id, Request $request, EntityManagerInterface $manager)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = $entityManager->getRepository(Post::class)->find($id);
+
+        if ($article) {
+            $form = $this->createFormBuilder($article)
+                ->add('title', TextType::class, ['data' => $article->getTitle()])
+                ->add('content', TextareaType::class, ['data' => $article->getContent()])
+                ->getForm();
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager->persist($article);
+                $manager->flush();
+                return $this->redirectToRoute('articles');
+            }
+            return $this->render('global/edit.html.twig', [
+                'form' => $form->createView(),
+                'article' => $article
+            ]);
+        } else {
+            return $this->redirectToRoute('articles');
+        }
+    }
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+    public function delete($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = $entityManager->getRepository(Post::class)->find($id);
+        if ($article) {
+            $entityManager->remove($article);
+        $entityManager->flush();
+        return $this->redirectToRoute('articles');
+        } else {
+            return $this->redirectToRoute('articles');
+        }
     }
 }
