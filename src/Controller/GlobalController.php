@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Post;
-use App\Repository\PostRepository;
+use App\Entity\News;
+use App\Repository\NewsRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,9 +26,9 @@ class GlobalController extends AbstractController
     /**
      * @Route("/articles", name="articles")
      */
-    public function article(PostRepository $postRepository)
+    public function article(NewsRepository $newsRepository)
     {
-        $articles = $postRepository->findAll();
+        $articles = $newsRepository->findAll();
 
         return $this->render('global/articles.html.twig', [
             'controller_name' => 'GlobalController',
@@ -40,15 +40,14 @@ class GlobalController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $manager)
     {
-        $article = new Post();
+        $article = new News();
         $form = $this->createFormBuilder($article)
             ->add('title', TextType::class)
             ->add('content', TextareaType::class)
             ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $article->setDateCreated(new DateTime());
-            $article->setEnable(true);
+            $article->setDate(new DateTime());
             $manager->persist($article);
             $manager->flush();
             return $this->redirectToRoute('articles');
@@ -63,7 +62,7 @@ class GlobalController extends AbstractController
     public function update($id, Request $request, EntityManagerInterface $manager)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $article = $entityManager->getRepository(Post::class)->find($id);
+        $article = $entityManager->getRepository(News::class)->find($id);
 
         if ($article) {
             $form = $this->createFormBuilder($article)
@@ -90,11 +89,11 @@ class GlobalController extends AbstractController
     public function delete($id)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $article = $entityManager->getRepository(Post::class)->find($id);
+        $article = $entityManager->getRepository(News::class)->find($id);
         if ($article) {
             $entityManager->remove($article);
-        $entityManager->flush();
-        return $this->redirectToRoute('articles');
+            $entityManager->flush();
+            return $this->redirectToRoute('articles');
         } else {
             return $this->redirectToRoute('articles');
         }

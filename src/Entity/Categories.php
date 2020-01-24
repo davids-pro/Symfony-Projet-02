@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\PostCategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  */
-class PostCategory
+class Categories
 {
     /**
      * @ORM\Id()
@@ -19,21 +19,21 @@ class PostCategory
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $name;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): self
+    public function setName(string $name): self
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
