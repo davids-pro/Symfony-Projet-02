@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Categories;
+use App\Entity\Images;
 use App\Entity\News;
+use App\Form\NewsType;
+use App\Repository\ImagesRepository;
 use App\Repository\NewsRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,30 +30,32 @@ class GlobalController extends AbstractController
     /**
      * @Route("/articles", name="articles")
      */
-    public function article(NewsRepository $newsRepository)
+    public function article(NewsRepository $newsRepository, ImagesRepository $imagesRepository)
     {
         $articles = $newsRepository->findAll();
+        $images = $imagesRepository->findAll();
 
         return $this->render('global/articles.html.twig', [
             'controller_name' => 'GlobalController',
-            'articles' => $articles
+            'articles' => $articles,
+            'images' => $images
         ]);
     }
     /**
-     * @Route("/ajout", name="create-article")
+     * @Route("/ajout", name="ajout")
      */
-    public function create(Request $request, EntityManagerInterface $manager)
+    public function create(Request $request)
     {
-        $article = new News();
-        $form = $this->createFormBuilder($article)
-            ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
-            ->getForm();
+        $entityManager = $this->getDoctrine()->getManager();
+        $news = new News();
+        $news->setPicture(new Images());
+        $form = $this->createForm(NewsType::class, $news);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $article->setDate(new DateTime());
-            $manager->persist($article);
-            $manager->flush();
+            $news->setDate(new DateTime());
+            $entityManager->persist($news);
+            $entityManager->flush();
             return $this->redirectToRoute('articles');
         }
         return $this->render('global/ajout.html.twig', [
@@ -62,22 +68,19 @@ class GlobalController extends AbstractController
     public function update($id, Request $request, EntityManagerInterface $manager)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $article = $entityManager->getRepository(News::class)->find($id);
+        $news = $entityManager->getRepository(News::class)->find($id);
 
-        if ($article) {
-            $form = $this->createFormBuilder($article)
-                ->add('title', TextType::class, ['data' => $article->getTitle()])
-                ->add('content', TextareaType::class, ['data' => $article->getContent()])
-                ->getForm();
+        if ($news) {
+            $form = $this->createForm(NewsType::class, $news);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $manager->persist($article);
+                $manager->persist($news);
                 $manager->flush();
                 return $this->redirectToRoute('articles');
             }
             return $this->render('global/edit.html.twig', [
                 'form' => $form->createView(),
-                'article' => $article
+                'article' => $news
             ]);
         } else {
             return $this->redirectToRoute('articles');

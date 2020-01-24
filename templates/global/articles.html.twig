@@ -4,22 +4,30 @@
 {% block body %}
 	<div class="row">
 		{% for article in articles %}
-			<div class="col-4 p-2 d-flex">
+			<div class="col-6 p-2 d-flex">
 				<div class="card bg-dark text-light w-100">
 					<div class="card-body d-flex flex-column align-items-stretch">
 						<div>
-							<h5 class="card-title text-justify text-warning">
-								<b>{{article.title}}</b>
+							<h5>
+								{{article.categorie.name|upper}}
 							</h5>
+							<h3 class="card-title text-justify text-warning">
+								<b>{{article.title}}</b>
+							</h3>
 						</div>
 						<div>
+							<p class="card-text text-justify">
+								<img class="img-fluid" src="{{article.picture.url}}">
+							</p>
+						</div>
+						<div class="pt-3">
 							<p class="card-text text-justify">
 								{{article.content}}
 							</p>
 						</div>
 						<div class="text-danger pt-3 d-flex align-items-end h-100">
 							<div class="d-flex align-items-center justify-content-between w-100">
-								{{article.dateCreated|date('d/m/Y')}}
+								{{article.date|date('d/m/Y')}}
 								<span class="ml-auto">
 									<a href="/edit/{{article.id}}">
 										<button type="button" class="btn btn-danger">Edit</button>
