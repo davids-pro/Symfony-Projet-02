@@ -41,3 +41,24 @@ nav {
 .card {
   box-shadow: 3px 3px 10px black;
 }
+
+.nerds-news {
+  color: #3c85af;
+  font-size: 18pt;
+}
+
+.index {
+  height: calc(100vh - 100px);
+  color: #ffa537;
+  font-family: 'Bangers', sans-serif;
+  font-size: 15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 10px 10px 10px black;
+}
+
+.container {
+  padding-top: 80px !important;
+}
