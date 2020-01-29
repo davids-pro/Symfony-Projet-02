@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Categories;
 use App\Entity\Images;
 use App\Entity\News;
 use App\Form\NewsType;
@@ -11,8 +10,6 @@ use App\Repository\NewsRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
